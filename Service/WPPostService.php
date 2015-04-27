@@ -10,142 +10,142 @@ abstract class WPPostService extends AbstractSingleton
     const ORDERBY_ID = "ID";
     const ORDERBY_TITLE = "post_title";
     const ORDERBY_CONTENT = "post_content";
-    
+
     const ASC = "ASC";
     const DESC = "DESC";
-    
+
     const POST_TYPE_POST = "post";
     const POST_TYPE_PAGE = "page";
-    
+
     const STATUS_PUBLISH = "publish";
     const STATUS_DRAFT = "draft";
-    
+
     /**
-     * 
+     *
      * @var string
      */
     private $entityClass;
-    
+
     /**
-     * 
+     *
      * @var int
      */
     private $posts_per_page;
-    
+
     /**
      *
      * @var int
      */
     private $offset;
-    
+
     /**
-     * 
+     *
      * @var string
      */
     private $category;
-    
+
     /**
      *
      * @var string
      */
     private $category_name;
-    
+
     /**
      *
      * @var string
      */
     private $orderby;
-    
+
     /**
      *
      * @var string
      */
     private $order;
-    
+
     /**
      *
      * @var string
      */
     private $include;
-    
+
     /**
      *
      * @var string
      */
     private $exclude;
-    
+
     /**
      *
      * @var string
      */
     private $meta_key;
-    
+
     /**
      *
      * @var string
      */
     private $meta_value;
-    
+
     /**
      *
      * @var string
      */
     private $post_type;
-    
+
     /**
      *
      * @var string
      */
     private $post_mime_type;
-    
+
     /**
      *
      * @var string
      */
     private $post_parent;
-    
+
     /**
      *
      * @var string
      */
     private $post_status;
-    
+
     /**
      *
      * @var string
      */
     private $suppress_filters;
-    
+
     /**
-     * 
+     *
      * @var array
      */
     private $tax_query;
-    
+
     /**
-     * 
+     *
      * @var string
      */
     private $query;
-    
+
     /**
-     * 
+     *
      * @var boolean
      */
     private $is_sticky;
-    
+
     /**
-     * 
+     *
      * @var int
      */
     private $paged;
-    
+
     /**
-     * 
+     *
      * @var \WP_Query
      */
     private $wpQuery;
-    
+
     /**
      * @return the $paged
      */
@@ -465,7 +465,7 @@ abstract class WPPostService extends AbstractSingleton
     {
         $this->suppress_filters = $suppress_filters;
     }
-    
+
     protected abstract function init();
 
     function __construct(){
@@ -476,19 +476,19 @@ abstract class WPPostService extends AbstractSingleton
         $this->post_type = self::POST_TYPE_POST;
         $this->post_status = self::STATUS_PUBLISH;
         $this->is_sticky = false;
-        
+
         $this->init();
     }
-    
+
     /**
      * it clears query params
      */
     public function clearQuery(){
         $this->__construct();
     }
-    
+
     /**
-     * 
+     *
      * @return multitype:number string
      */
     public function getArgsArray(){
@@ -499,14 +499,14 @@ abstract class WPPostService extends AbstractSingleton
         $args["order"] = $this->order;
         $args["post_type"] = $this->post_type;
         $args["post_status"] = $this->post_status;
-        
+
         if($this->paged != null){
             $args["paged"] = $this->paged;
         }
         else{
             $args["paged"] = 1;
         }
-        
+
         if($this->category != null){
             $args["category"] = $this->category;
         }
@@ -543,45 +543,45 @@ abstract class WPPostService extends AbstractSingleton
         if($this->query != null){
             $args["s"] = $this->query;
         }
-        
+
         return $args;
     }
-    
+
     /**
-     * 
+     *
      * @param string $taxonomyName
      * @param string $termName
      * @param array $termsArray
      */
     public function setTaxonomyFilter($taxonomyName, $termName, $termsArray = null){
         if($termsArray != null){
-           $terms = $termsArray;  
+           $terms = $termsArray;
         }
         else{
             $terms = $termName;
         }
-        
+
         $taxQuery = array(
             array(
                 "taxonomy" => $taxonomyName,
                 "terms" => $terms
             )
         );
-        
+
         $this->setTaxQuery($taxQuery);
     }
-    
+
     /**
-     * 
+     *
      * @return Ambigous <multitype:, multitype:number >
      */
     private function getPostsFromWP(){
         $this->wpQuery = new \WP_Query($this->getArgsArray());
         return $this->wpQuery->get_posts();
     }
-    
+
     /**
-     * 
+     *
      * @param array $posts
      * @return WPPostInterface
      */
@@ -593,9 +593,9 @@ abstract class WPPostService extends AbstractSingleton
         }
         return $postEntities;
     }
-    
+
     /**
-     * 
+     *
      * @return multitype:\INUtils\Entity\WPPostInterface
      */
     public function getPosts(){
@@ -603,7 +603,7 @@ abstract class WPPostService extends AbstractSingleton
         $this->clearQuery();
         return $posts;
     }
-    
+
     /**
      * @return multitype:\INUtils\Entity\WPPostInterface
      */
@@ -613,33 +613,42 @@ abstract class WPPostService extends AbstractSingleton
         $stickyPosts = $this->getPosts();
         return $stickyPosts;
     }
-    
+
     private function validateQuery(){
         if($this->wpQuery == null){
             throw new \Exception("the query hasn't been executed");
         }
     }
-    
+
     /**
-     * 
+     *
      * @return number
      */
     public function getPostCount(){
         $this->validateQuery();
         return $this->wpQuery->post_count;
     }
-    
+
     /**
-     * 
+     *
+     * @return number
+     */
+    public function getFoundPosts(){
+        $this->validateQuery();
+        return $this->wpQuery->found_posts;
+    }
+
+    /**
+     *
      * @return number
      */
     public function getMaxNumberOfPages(){
         $this->validateQuery();
         return $this->wpQuery->max_num_pages;
     }
-    
+
     /**
-     * 
+     *
      * @return NULL|number
      */
     public function getNextPageNumber(){
@@ -651,9 +660,9 @@ abstract class WPPostService extends AbstractSingleton
             return $this->getPaged() + 1;
         }
     }
-    
+
     /**
-     * 
+     *
      * @return NULL|number
      */
     public function getPrevPageNumber(){
@@ -665,5 +674,5 @@ abstract class WPPostService extends AbstractSingleton
             return $this->getPaged() - 1;
         }
     }
-    
+
 }

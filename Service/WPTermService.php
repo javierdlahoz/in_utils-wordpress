@@ -1,5 +1,5 @@
 <?php
-namespace Service;
+namespace INUtils\Service;
 
 use INUtils\Singleton\AbstractSingleton;
 

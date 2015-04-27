@@ -256,4 +256,30 @@ class TextHelper {
         return strip_tags($text);
     }
 
+
+    /**
+     *
+     * @param string $fileName
+     * @return string
+     */
+    public static function getFileNameFromUniqueId($fileName){
+        $fileNameWithOutUniqueIdArray = explode("-", $fileName);
+        $filteredFileName = "";
+        for($i = 1; $i < count($fileNameWithOutUniqueIdArray); $i++){
+            $filteredFileName .= $fileNameWithOutUniqueIdArray[$i];
+        }
+
+        return $filteredFileName;
+    }
+
+    /**
+     *
+     * @param string $url
+     * @return string
+     */
+    public static function getUrlWithOutQueries($url){
+        $urls = explode("?", $url);
+        return $urls[0];
+    }
+
 }
