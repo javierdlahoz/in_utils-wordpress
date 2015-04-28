@@ -13,8 +13,10 @@
         "wordpress",
         "InNuevo"
     ],
-    "psr-0":{
-        "INUtils\\" : "src/INUtils/"
+    "autoload": {
+        "psr-0":{
+            "INUtils\\" : "src/"
+        }
     },
     "require": {
         "php": ">=5.3"
