@@ -7,14 +7,18 @@ use INUtils\Entity\WPTermEntity;
 class TaxonomyHelper extends AbstractSingleton
 {
     /**
-     * 
+     *
      * @param string $name
      * @param string $title
      * @param string $singularName
      * @param string $pluralName
      * @param string $postType
      */
-    public function createTaxonomy($name, $title, $singularName, $pluralName, $postType = "post"){
+    public function createTaxonomy($name, $title, $singularName, $pluralName, $postType = "post", $url = null){
+        if($url == null){
+            $url = $name;
+        }
+
         register_taxonomy($name, $postType, array(
             // Hierarchical taxonomy (like categories)
             'hierarchical' => true,
@@ -34,15 +38,15 @@ class TaxonomyHelper extends AbstractSingleton
             ),
             // Control the slugs used for this taxonomy
             'rewrite' => array(
-                'slug' => $name, // This controls the base slug that will display before each term
+                'slug' => $url, // This controls the base slug that will display before each term
                 'with_front' => false, // Don't display the category base before "/locations/"
                 'hierarchical' => true // This will allow URL's like "/locations/boston/cambridge/"
             ),
         ));
     }
-    
+
     /**
-     * 
+     *
      * @return multitype:string boolean
      */
     private function getArgsForTaxonomies(){
@@ -53,12 +57,12 @@ class TaxonomyHelper extends AbstractSingleton
             'pad_counts'        => false,
             'cache_domain'      => 'core'
         );
-        
+
         return $args;
     }
-    
+
     /**
-     * 
+     *
      * @param string $taxonomyName
      * @return multitype:\INUtils\Entity\WPTermEntity
      */

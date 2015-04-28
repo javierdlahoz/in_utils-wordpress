@@ -1,56 +1,81 @@
 <?php
 namespace INUtils\Entity;
 
+use INUtils\Helper\TextHelper;
 abstract class WPPostEntity implements WPPostInterface
 {
     /**
-     * 
+     *
      * @var int
      */
     private $id;
-    
+
     /**
-     * 
+     *
      * @var string
      */
     private $content;
-    
+
     /**
-     * 
+     *
      * @var string
      */
     private $permalink;
-    
+
     /**
-     * 
+     *
      * @var string
      */
     private $image;
-    
+
     /**
-     * 
+     *
      * @var string
      */
     private $type;
-    
+
     /**
-     * 
+     *
      * @var string
      */
     private $title;
-    
+
     /**
-     * 
+     *
      * @var string
      */
     private $date;
-    
+
     /**
-     * 
+     *
      * @var string
      */
     private $name;
-    
+
+    /**
+     *
+     * @var string
+     */
+    private $author;
+
+
+
+    /**
+     * @return the $author
+     */
+    public function getAuthor()
+    {
+        return get_the_author_meta("display_name", $this->author);
+    }
+
+    /**
+     * @param string $author
+     */
+    public function setAuthor($author)
+    {
+        $this->author = $author;
+    }
+
     /**
      * @return the $name
      */
@@ -140,7 +165,7 @@ abstract class WPPostEntity implements WPPostInterface
         $this->content = $content;
     }
 
-    
+
 
     /**
      * @param string $type
@@ -158,10 +183,10 @@ abstract class WPPostEntity implements WPPostInterface
         $this->title = $title;
     }
 
-    
+
     function __construct($postId){
         $post = get_post($postId);
-        
+
         $this->id = $post->ID;
         $this->content = $post->post_content;
         $this->permalink = get_permalink($this->id);
@@ -170,39 +195,40 @@ abstract class WPPostEntity implements WPPostInterface
         $this->title = $post->post_title;
         $this->date = $post->post_date;
         $this->name = $post->post_name;
+        $this->author = $post->post_author;
         $this->post = $post;
     }
-    
+
     /**
-     * 
+     *
      * @param string $fieldName
      * @return mixed
      */
     public function getMetaField($fieldName){
         return get_post_meta($this->id, $fieldName, true);
     }
-    
+
     /**
-     * 
+     *
      * @param string $fieldName
      * @param string $fieldValue
      */
     public function setMetaField($fieldName, $fieldValue){
         update_post_meta($this->id, $fieldName, $fieldValue);
     }
-    
-    
+
+
     /**
-     * 
+     *
      * @param string $format
      * @return Ambigous <string, number, boolean, mixed>
      */
     public function getFormattedDate($format = "j M Y"){
         return mysql2date($format, $this->date);
     }
-    
+
     /**
-     * 
+     *
      * @return multitype:\INUtils\Entity\WPPostEntity
      */
     public function getChildren(){
@@ -211,9 +237,9 @@ abstract class WPPostEntity implements WPPostInterface
         $children = get_page_children($this->getId(), $all_wp_pages);
         return $this->formatChildren($children);
     }
-    
+
     /**
-     * 
+     *
      * @param unknown $children
      * @return multitype:\INUtils\Entity\WPPostEntity
      */
@@ -225,5 +251,64 @@ abstract class WPPostEntity implements WPPostInterface
         }
         return $childrenEntities;
     }
-    
+
+    /**
+     *
+     * @param string $taxonomy
+     * @return multitype:\INUtils\Entity\WPTermEntity
+     */
+    public function getTermList($taxonomy){
+        $termList = array();
+        $terms = wp_get_post_terms($this->getId(), $taxonomy);
+        foreach ($terms as $term){
+            $termList[] = new WPTermEntity($term->term_id, $taxonomy);
+        }
+        return $termList;
+    }
+
+    /**
+     *
+     * @return multitype:\INUtils\Entity\WPTermEntity
+     */
+    public function getTags(){
+        return $this->getTermList("post_tag");
+    }
+
+    /**
+     *
+     * @return string
+     */
+    public function getTagsAsString(){
+        $isFirst = true;
+        $tags = "";
+        foreach($this->getTags() as $tag){
+            if($isFirst){
+                $tags = $tag->getName();
+                $isFirst = false;
+            }
+            else{
+                $tags .= ", ".$tag->getName();
+            }
+        }
+        return $tags;
+    }
+
+    /**
+     *
+     * @return multitype:\INUtils\Entity\the \INUtils\Entity\Ambigous
+     */
+    public function toArray(){
+        return array(
+            "title" => $this->getTitle(),
+            "content" => $this->getContent(),
+            "permalink" => $this->getPermalink(),
+            "image" => $this->getImage(),
+            "date" => $this->getFormattedDate(),
+            "type" => $this->getType(),
+            "name" => $this->getName(),
+            "author" => $this->getAuthor(),
+            "limitedContent" => TextHelper::cropText($this->getContent(), 300)
+        );
+    }
+
 }

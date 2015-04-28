@@ -44,13 +44,13 @@ class PostHelper{
 	{
 		?>
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script> <!-- man I really need this!! -->
-		<script src="<?php wp_enqueue_script("jquery"); ?>"></script>
 		<script src="<?php echo get_template_directory_uri(); ?>/js/jquery-ui.min.js"></script>
 		<script src="<?php echo get_template_directory_uri(); ?>/js/typeahead.js"></script>
 		<script src="<?php echo get_template_directory_uri(); ?>/js/admin.js"></script>
 
-		<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" rel="stylesheet">
 		<link href="<?php echo get_template_directory_uri(); ?>/css/date-picker.css" rel="stylesheet">
+		<!-- link href="<?php echo get_template_directory_uri(); ?>/css/main.css" rel="stylesheet"  -->
+		<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
 		<?php
 	}
 
@@ -65,29 +65,39 @@ class PostHelper{
 	    $postTypeName,
 	    $postTypeSingular,
 	    $postTypePlural,
+	    $url = null,
 	    $supports = array(
-	        'title', 'editor', 'thumbnail'
+	        'title', 'editor', 'thumbnail', 'tags'
 	        )
+
 	)
 	{
-	    register_post_type($postTypeName,
-    	    array(
-        	    'labels' => array(
-            	    'name' => __( $postTypePlural ),
-            	    'singular_name' => __( $postTypeSingular ),
-            	    'add_new_item' => __('Add New '.$postTypeSingular),
-            	    'add_new' => __('Add A '.$postTypeSingular),
-            	    'edit_item' => __('Edit '.$postTypeSingular),
-            	    'view_item' => __('View '.$postTypeSingular)
-        	    ),
-        	    'show_ui' => true,
-        	    'capability_type' => 'post',
-        	    'hierarchical' => false,
-        	    'rewrite' => true,
-        	    'public' => true,
-        	    'has_archive' => true,
-        	    'supports' => $supports
+	    if($url == null){
+	       $url = $postTypeName;
+	    }
+
+	    $args = array(
+    	    'labels' => array(
+        	    'name' => __( $postTypePlural ),
+        	    'singular_name' => __( $postTypeSingular ),
+        	    'add_new_item' => __('Add New '.$postTypeSingular),
+        	    'add_new' => __('Add A '.$postTypeSingular),
+        	    'edit_item' => __('Edit '.$postTypeSingular),
+        	    'view_item' => __('View '.$postTypeSingular)
+    	    ),
+    	    'show_ui' => true,
+    	    'capability_type' => 'post',
+    	    'hierarchical' => false,
+    	    'rewrite' => true,
+    	    'public' => true,
+    	    'has_archive' => true,
+	        'taxonomies' => array('post_tag'),
+    	    'supports' => $supports,
+    	    'rewrite' => array(
+    	       'slug' => $url
     	    )
 	    );
+
+	    register_post_type($postTypeName, $args);
 	}
 }
