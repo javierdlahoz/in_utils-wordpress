@@ -14,7 +14,7 @@
         "InNuevo"
     ],
     "psr-0":{
-        "INUtils\\" : "src/"
+        "INUtils\\" : "src/INUtils/"
     },
     "require": {
         "php": ">=5.3"
