@@ -1,6 +1,7 @@
 <?php
 namespace INUtils\Helper;
 
+use INUtils\Controller\EmailController;
 class InterceptorHelper
 {
     /**
@@ -49,6 +50,9 @@ class InterceptorHelper
             try{
                 if($urls[2] == 'post' || $urls[2] == 'posts'){
                     $controller = $this->getPostController();
+                }
+                elseif($urls[2] == 'email'){
+                    $controller = EmailController::getSingleton();
                 }
                 else{
                     $controller = $this->getControllerClassFromUrlPart($urls[2]);
