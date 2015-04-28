@@ -13,8 +13,8 @@
         "wordpress",
         "InNuevo"
     ],
-    "psr-4":{
-        "INUtils\\" : "INUtils/src/INUtils/"
+    "psr-0":{
+        "INUtils\\" : "src/"
     },
     "require": {
         "php": ">=5.3"
