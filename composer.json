@@ -1,0 +1,19 @@
+
+{
+    "name": "INUtils",
+    "description": "InNuevo Utils for WP Projects",
+    "authors": [
+        {
+            "name": "Javier De la Hoz",
+            "email": "javier@innuevodigital.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "keywords": [
+        "wordpress",
+        "InNuevo"
+    ],
+    "require": {
+        "php": ">=5.3"
+    }
+}
