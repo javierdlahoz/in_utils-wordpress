@@ -12,7 +12,7 @@ abstract class AbstractController extends AbstractSingleton{
      */
     public function getPost($param){
         if(isset($_POST[$param])){
-            return $_POST[$param];
+            return filter_var($_POST[$param], FILTER_SANITIZE_STRING);
         }
         else{
             return null;
