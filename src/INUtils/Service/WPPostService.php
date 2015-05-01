@@ -147,6 +147,28 @@ abstract class WPPostService extends AbstractSingleton
     private $wpQuery;
 
     /**
+     *
+     * @var string
+     */
+    private $name;
+
+    /**
+     * @return the $name
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param \INUtils\Service\string $name
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
+
+    /**
      * @return the $paged
      */
     public function getPaged()
@@ -543,6 +565,9 @@ abstract class WPPostService extends AbstractSingleton
         if($this->query != null){
             $args["s"] = $this->query;
         }
+        if($this->name != null){
+            $args["name"] = $this->name;
+        }
 
         return $args;
     }
@@ -672,6 +697,21 @@ abstract class WPPostService extends AbstractSingleton
         }
         else{
             return $this->getPaged() - 1;
+        }
+    }
+
+    /**
+     *
+     * @param string $pageName
+     * @return \INUtils\Entity\WPEntityInterface
+     */
+    public function getPostByPageName($pageName){
+        $post = get_page_by_path($pageName);
+        if(isset($post->ID)){
+            return new $this->entityClass($post->ID);
+        }
+        else{
+            throw new \Exception("No post was found");
         }
     }
 
