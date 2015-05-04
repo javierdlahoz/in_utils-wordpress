@@ -58,6 +58,23 @@ abstract class WPPostEntity implements WPPostInterface
      */
     private $author;
 
+    /**
+     *
+     * @var array
+     */
+    private $comments;
+
+    /**
+     *
+     * @return array
+     */
+    public function getComments(){
+        $args = array(
+	       'post_id' => $this->id,
+        );
+
+        return get_comments($args);
+    }
 
 
     /**
