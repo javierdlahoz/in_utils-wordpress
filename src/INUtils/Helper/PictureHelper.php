@@ -8,15 +8,15 @@ class PictureHelper
     const PATH = "/thumbnails/";
     const PATH_TO_HERE = "/wp-content/plugins/in_utils/Helper";
 
-    public static function getThumbnail($url) {
+    public static function getThumbnail($url, $size = 25) {
 
         $fileName = self::getImageName($url);
         if(exif_imagetype($url) != IMAGETYPE_JPEG){
             list($widthOrig, $heightOrig) = getimagesize($url);
 
             if($heightOrig > 840){
-                $width = ceil($widthOrig*self::PERCENT/100);
-                $height = ceil($heightOrig*self::PERCENT/100);
+                $width = ceil($widthOrig*$size/100);
+                $height = ceil($heightOrig*$size/100);
 
                 // This resamples the image
                 $imageR = \imagecreatetruecolor($width, $height);
