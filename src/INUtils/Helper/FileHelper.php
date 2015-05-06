@@ -3,7 +3,7 @@ namespace INUtils\Helper;
 
 class FileHelper
 {
-    const UPLOAD_DIR = "wp-content/uploads/";
+    const UPLOAD_DIR = "/wp-content/uploads/";
 
     /**
      *
@@ -15,14 +15,14 @@ class FileHelper
     {
         if(isset($_FILES) && $_FILES[$fileInputName]["name"] != ""){
 
-            $uploaddir = self::UPLOAD_DIR;
+            $uploaddir = __DIR__."/../../../../../../../../uploads/";
             $uniqueId = uniqid();
 
             $fileName = $uniqueId . "-" . $_FILES[$fileInputName]['name'];
             $uploadfile = $uploaddir . $fileName;
             if (move_uploaded_file($_FILES[$fileInputName]['tmp_name'], $uploadfile)) {
                 return array(
-                    "fileUrl" => "/".self::UPLOAD_DIR.$fileName,
+                    "fileUrl" => self::UPLOAD_DIR.$fileName,
                     "fileName" => $fileName,
                     "fileSize" => $_FILES[$fileInputName]['size']
                     );
