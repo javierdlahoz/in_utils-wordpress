@@ -15,7 +15,7 @@ class FileHelper
     {
         if(isset($_FILES) && $_FILES[$fileInputName]["name"] != ""){
 
-            $uploaddir = __DIR__."/../../../uploads/";
+            $uploaddir = self::UPLOAD_DIR;
             $uniqueId = uniqid();
 
             $fileName = $uniqueId . "-" . $_FILES[$fileInputName]['name'];
