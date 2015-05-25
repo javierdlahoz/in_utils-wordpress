@@ -66,6 +66,15 @@ class PostController extends AbstractController{
 
         return $postTypes;
     }
+    
+    /**
+     * 
+     * @return multitype:multitype:
+     */
+    public function recentsAction(){
+        $posts = PostService::getSingleton()->getRecentPosts();
+        return array("posts" => $this->formatPostResultsAsArray($posts));
+    }
 
     /**
      *

@@ -282,4 +282,14 @@ class TextHelper {
         return $urls[0];
     }
 
+    /**
+     *
+     * @param string $text
+     * @return string
+     */
+    public static function camelCaseToUnderscoreCase($text){
+        $text = strtolower(preg_replace('/([a-z])([A-Z])/', '$1_$2', $text));
+        return $text;
+    }
+
 }
