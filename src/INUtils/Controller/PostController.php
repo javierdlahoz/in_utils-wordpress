@@ -8,6 +8,7 @@ use Resource\Helper\ResourceHelper;
 use Staff\Helper\StaffHelper;
 use Director\Helper\DirectorHelper;
 use Client\Helper\ClientHelper;
+use INUtils\Entity\WPPostEntity;
 class PostController extends AbstractController{
 
     public function save($postId){
@@ -88,6 +89,15 @@ class PostController extends AbstractController{
         }
 
         return $formattedPosts;
+    }
+    
+    /**
+     * 
+     */
+    public function postAction(){
+        $postUrl = $this->getPost('url');
+        $postEntity = new PostEntity(url_to_postid($postUrl));
+        return array("post" => $postEntity->toArray());
     }
 
 }
