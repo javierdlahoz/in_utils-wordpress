@@ -1,6 +1,8 @@
 <?php
 namespace INUtils\Controller;
 
+use INUtils\Helper\UserHelper;
+
 class UserController extends AbstractController
 {
     public function infoAction(){

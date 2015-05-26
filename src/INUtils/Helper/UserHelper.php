@@ -1,5 +1,5 @@
 <?php
-namespace Helper;
+namespace INUtils\Helper;
 
 class UserHelper
 {
