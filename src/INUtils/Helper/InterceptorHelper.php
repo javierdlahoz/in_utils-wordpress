@@ -126,7 +126,13 @@ class InterceptorHelper
     private function getControllerClassFromUrlPart($urlPart){
         $namespace = $this->getNamespaceNameFromUrlPart($urlPart);
         $className = "\\".$namespace."\\Controller\\".$namespace."Controller";
-        return $className::getSingleton();
+        if(class_exists($className)){
+            return $className::getSingleton();
+        }
+        else{
+            $className = "\\INUtils\\Controller\\".$namespace."Controller";
+            return $className::getSingleton();
+        }
     }
 
     /**
