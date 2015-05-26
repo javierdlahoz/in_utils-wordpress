@@ -96,8 +96,15 @@ class PostController extends AbstractController{
      */
     public function postAction(){
         $postUrl = $this->getPost('url');
-        $postEntity = new PostEntity(url_to_postid($postUrl));
-        return array("post" => $postEntity->toArray());
+        $postService = PostService::getSingleton();
+        $postService->setName($postUrl);
+        $posts = $postService->getPosts();
+        if(count($posts) > 0){
+            return array("post" => $posts[0]->toArray());
+        }
+        else{
+            return array("post" => null);
+        }
     }
 
 }
