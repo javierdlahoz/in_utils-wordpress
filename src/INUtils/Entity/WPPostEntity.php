@@ -316,6 +316,7 @@ abstract class WPPostEntity implements WPPostInterface
      */
     public function toArray(){
         return array(
+            "id" => $this->getId(),
             "title" => $this->getTitle(),
             "content" => $this->getContent(),
             "permalink" => $this->getPermalink(),
