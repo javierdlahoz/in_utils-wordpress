@@ -4,11 +4,7 @@ namespace INUtils\Controller;
 
 use INUtils\Entity\PostEntity;
 use INUtils\Service\PostService;
-use Resource\Helper\ResourceHelper;
-use Staff\Helper\StaffHelper;
-use Director\Helper\DirectorHelper;
-use Client\Helper\ClientHelper;
-use INUtils\Entity\WPPostEntity;
+
 class PostController extends AbstractController{
 
     public function save($postId){
@@ -53,22 +49,6 @@ class PostController extends AbstractController{
     }
 
     /**
-     *
-     * @return array
-     */
-    public function getAllPostTypes(){
-        $postTypes = array(
-            "post",
-            ResourceHelper::RESOURCE_POST_TYPE,
-            StaffHelper::STAFF_POST_TYPE,
-            DirectorHelper::DIRECTOR_POST_TYPE,
-            ClientHelper::CLIENT_POST_TYPE
-        );
-
-        return $postTypes;
-    }
-    
-    /**
      * 
      * @return multitype:multitype:
      */
@@ -95,9 +75,11 @@ class PostController extends AbstractController{
      * 
      */
     public function postAction(){
-        $postUrl = $this->getPost('url');
+        $slug = $this->getPost('slug');
+        $type = $this->getPost('type');
         $postService = PostService::getSingleton();
-        $postService->setName($postUrl);
+        $postService->setName($slug);
+        $postService->setPostType($type);
         $posts = $postService->getPosts();
         if(count($posts) > 0){
             return array("post" => $posts[0]->toArray());
