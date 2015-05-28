@@ -32,9 +32,16 @@ class PostController extends AbstractController{
         else{
             $paged = 1;
         }
+        
+        if(isset($_POST["type"])){
+            $type = $_POST["type"];  
+        }
+        else{
+            $type = $this->getAllPostTypes();
+        }
 
         $postService = PostService::getSingleton();
-        $postService->setPostType($this->getAllPostTypes());
+        $postService->setPostType($type);
         $postService->setQuery($query);
         $postService->setPaged($paged);
         $postService->setPostsPerPage(2);

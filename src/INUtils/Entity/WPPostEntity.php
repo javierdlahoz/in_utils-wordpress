@@ -181,8 +181,7 @@ abstract class WPPostEntity implements WPPostInterface
     {
         $this->content = $content;
     }
-
-
+    
 
     /**
      * @param string $type
@@ -206,7 +205,6 @@ abstract class WPPostEntity implements WPPostInterface
 
         $this->id = $post->ID;
         $this->content = $post->post_content;
-        $this->permalink = get_permalink($this->id);
         $this->image = wp_get_attachment_url(get_post_thumbnail_id($this->id));
         $this->type = $post->post_type;
         $this->title = $post->post_title;
@@ -214,6 +212,13 @@ abstract class WPPostEntity implements WPPostInterface
         $this->name = $post->post_name;
         $this->author = $post->post_author;
         $this->post = $post;
+        
+        if($this->type == "page"){
+            $this->permalink = $this->post->guid;
+        }
+        else{
+            $this->permalink = get_permalink($this->id);
+        }
     }
 
     /**
@@ -315,6 +320,7 @@ abstract class WPPostEntity implements WPPostInterface
      * @return multitype:\INUtils\Entity\the \INUtils\Entity\Ambigous
      */
     public function toArray(){
+
         return array(
             "id" => $this->getId(),
             "title" => $this->getTitle(),
