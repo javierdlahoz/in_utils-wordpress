@@ -10,4 +10,12 @@ class UserController extends AbstractController
         $user = get_user_by("login", $username);
         return array("user" => UserHelper::fromUserToArray($user));
     }
+    
+    /**
+     * @return array
+     */
+    public function currentAction(){
+        $user = wp_get_current_user();
+        return array("user" => UserHelper::fromUserToArray($user));
+    }
 }
