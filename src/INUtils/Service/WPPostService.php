@@ -714,5 +714,14 @@ abstract class WPPostService extends AbstractSingleton
             throw new \Exception("No post was found");
         }
     }
+    
+    /**
+     * 
+     * @return 
+     */
+    public function getThisPost(){
+        $className = $this->getEntityClass();
+        return new $className(get_the_ID());
+    }
 
 }
