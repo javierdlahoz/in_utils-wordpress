@@ -334,5 +334,49 @@ abstract class WPPostEntity implements WPPostInterface
             "limitedContent" => TextHelper::cropText($this->getContent(), 300)
         );
     }
+    
+    /**
+     *
+     * @param string $method
+     */
+    protected function getFieldNameFromMethodCall($method){
+        $fieldName = substr($method, 3);
+        return strtolower(preg_replace('/([a-z])([A-Z])/', '$1_$2', $fieldName));
+    }
+    
+    /**
+     *
+     * @param array $args
+     */
+    protected function getArgsForMethodCall($args){
+        if(count($args) == 1){
+            $args = $args[0];
+        }
+        return $args;
+    }
+    
+    /**
+     *
+     * @param string $method
+     * @param array $args
+     */
+    public function __call($method, $args){
+        if(strpos($method, "set") === 0){
+            $this->setMetaField($this->getFieldNameFromMethodCall($method), $this->getArgsForMethodCall($args));
+        }
+    
+        if(strpos($method, "get") === 0){
+            return $this->getMetaField($this->getFieldNameFromMethodCall($method));
+        }
+        return null;
+    }
+    
+    /**
+     *
+     * @return Ambigous <WP_Post, multitype:, NULL>
+     */
+    public function getPost(){
+        return $this->post;
+    }
 
 }
