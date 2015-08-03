@@ -51,6 +51,13 @@ class PostHelper{
 		<link href="<?php echo get_template_directory_uri(); ?>/css/date-picker.css" rel="stylesheet">
 		<!-- link href="<?php echo get_template_directory_uri(); ?>/css/main.css" rel="stylesheet"  -->
 		<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
+		<script type="text/javascript">
+			jQuery(document).ready(
+					function(){
+						jQuery("body").css("background-color", "transparent");
+					}
+			);
+		</script>
 		<?php
 	}
 
