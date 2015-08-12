@@ -6,6 +6,7 @@ use INUtils\Entity\WPPostInterface;
 
 class PluginHelper extends AbstractSingleton
 {
+    const PLUGIN_HELPER = "plugin helper";
     /**
      * 
      * @var array

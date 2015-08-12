@@ -44,7 +44,7 @@ class InterceptorHelper
         if($urls[1] == "api"){
 
             error_reporting(0);
-            require('wp-load.php');
+            require('/wp-load.php');
             require_once(ABSPATH . 'wp-includes/pluggable.php');
 
             try{
