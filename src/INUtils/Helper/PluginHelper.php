@@ -58,6 +58,21 @@ class PluginHelper extends AbstractSingleton
     /**
      *
      * @param string $key
+     * @return
+     */
+    public static function getController($key, $namespace = null){
+        $key = ucfirst($key);
+        if($namespace === null){
+            $namespace = $key;
+        }
+        $class = "\\".$namespace."\\Controller\\".$key."Controller";
+        $controller = $class::getSingleton();
+        return $controller;
+    }
+    
+    /**
+     *
+     * @param string $key
      * @return 
      */
     public static function getService($key, $namespace = null){
