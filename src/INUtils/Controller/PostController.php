@@ -1,4 +1,4 @@
-<?php
+    <?php
 
 namespace INUtils\Controller;
 
@@ -28,8 +28,8 @@ class PostController extends AbstractController{
             $query = "";
         }
 
-        if(isset($_POST["paged"])){
-            $paged = $_POST["paged"];
+        if(isset($_POST["page"])){
+            $paged = $_POST["page"];
         }
         else{
             $paged = 1;
@@ -46,7 +46,21 @@ class PostController extends AbstractController{
         $postService->setPostType($type);
         $postService->setQuery($query);
         $postService->setPaged($paged);
-        $postService->setPostsPerPage(self::POST_PER_PAGE);
+        
+        if(isset($_POST["perPage"])){
+            $postService->setPostsPerPage($_POST["perPage"]);
+        }
+        else{
+            $postService->setPostsPerPage(self::POST_PER_PAGE);
+        }
+        
+        if(isset($_POST["orderby"])){
+            $postService->setOrderby($_POST["orderby"]);
+        }
+        if(isset($_POST["order"])){
+            $postService->setOrder($_POST["order"]);
+        }
+        
 
         $postEntities = $postService->getPosts();
         return array(
