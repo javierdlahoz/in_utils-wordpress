@@ -7,6 +7,8 @@ use INUtils\Service\PostService;
 
 class PostController extends AbstractController{
 
+    const POST_PER_PAGE = 10;
+    
     public function save($postId){
         if(isset($_POST[PostEntity::VIDEO])){
             $postEntity = new PostEntity($postId);
@@ -37,14 +39,14 @@ class PostController extends AbstractController{
             $type = $_POST["type"];  
         }
         else{
-            $type = $this->getAllPostTypes();
+            $type = "post";
         }
 
         $postService = PostService::getSingleton();
         $postService->setPostType($type);
         $postService->setQuery($query);
         $postService->setPaged($paged);
-        $postService->setPostsPerPage(2);
+        $postService->setPostsPerPage(self::POST_PER_PAGE);
 
         $postEntities = $postService->getPosts();
         return array(
