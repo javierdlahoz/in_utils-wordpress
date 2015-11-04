@@ -70,6 +70,7 @@ class PostController extends AbstractController{
             "pagesNumber" => $postService->getMaxNumberOfPages()
         );
     }
+    
 
     /**
      * 
