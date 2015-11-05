@@ -72,14 +72,23 @@ class PostController extends AbstractController{
     }
     
     public function getAction(){
-        if(!isset($_POST["slug"])){
+        if(!isset($_GET["slug"])){
             throw new \Exception("slug param is mandatory");
         }
-        if(!isset($_POST["type"])){
+        if(!isset($_GET["type"])){
             throw new \Exception("type param is mandatory");
         }
         
-        $post = $this->getPostBySlugAndType($_POST["slug"], $_POST["type"]);
+        $post = $this->getPostBySlugAndType($_GET["slug"], $_GET["type"]);
+        return array("post" => $post->toArray());
+    }
+    
+    public function indexAction(){
+        if(!isset($_GET["id"])){
+            throw new \Exception("ID param is mandatory");
+        }
+        
+        $post = new PostEntity($_GET["id"]);
         return array("post" => $post);
     }
     
