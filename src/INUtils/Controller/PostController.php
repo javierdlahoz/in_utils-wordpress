@@ -89,7 +89,7 @@ class PostController extends AbstractController{
         }
         
         $post = new PostEntity($_GET["id"]);
-        return array("post" => $post);
+        return array("post" => $post->toArray());
     }
     
     private function getPostBySlugAndType($slug, $type){
