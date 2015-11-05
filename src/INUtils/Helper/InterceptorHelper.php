@@ -40,7 +40,7 @@ class InterceptorHelper
      */
     private function removeParams($url){
         $urls = explode("?", $url);
-        $method = $url[0];
+        $method = $urls[0];
         return $method;
     }
 
