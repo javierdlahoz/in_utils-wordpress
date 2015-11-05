@@ -32,6 +32,17 @@ class InterceptorHelper
         echo json_encode(array("error" => $message));
         exit;
     }
+    
+    /**
+     * 
+     * @param string $url
+     * @return string
+     */
+    private function removeParams($url){
+        $urls = explode("?", $url);
+        $method = $url[0];
+        return $method;
+    }
 
     /**
      *
@@ -60,11 +71,12 @@ class InterceptorHelper
             }
             catch (\Exception $ex){ }
 
-            if(!method_exists($controller, $urls[3]."Action")){
-                $this->sendErrorMessage("The method ".$urls[3]."Action doesn't exist in ".get_class($controller)." class");
+            $method = $this->removeParams($urls[3]);
+            if(!method_exists($controller, $method."Action")){
+                $this->sendErrorMessage("The method ".$method."Action doesn't exist in ".get_class($controller)." class");
             }
 
-            $results = $controller->{$urls[3]."Action"}();
+            $results = $controller->{$method."Action"}();
 
             if(is_array($results)){
 
