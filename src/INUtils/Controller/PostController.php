@@ -71,6 +71,29 @@ class PostController extends AbstractController{
         );
     }
     
+    public function getAction(){
+        if(!isset($_POST["slug"])){
+            throw new \Exception("slug param is mandatory");
+        }
+        if(!isset($_POST["type"])){
+            throw new \Exception("type param is mandatory");
+        }
+        
+        $post = $this->getPostBySlugAndType($_POST["slug"], $_POST["type"]);
+        return array("post" => $post);
+    }
+    
+    private function getPostBySlugAndType($slug, $type){
+        $postService = PostService::getSingleton();
+        $postService->setName($slug);
+        $postService->setPostType($type);
+        
+        $posts = $postService->getPosts();
+        if(!isset($posts[0])){
+            return null;
+        }
+        return $posts[0];
+    }
 
     /**
      * 
