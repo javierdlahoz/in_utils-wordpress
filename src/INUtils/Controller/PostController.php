@@ -21,22 +21,22 @@ class PostController extends AbstractController{
      * @return array
      */
     public function searchAction(){
-        if(isset($_POST["query"])){
-            $query = $_POST["query"];
+        if(isset($_GET["query"])){
+            $query = $_GET["query"];
         }
         else{
             $query = "";
         }
 
-        if(isset($_POST["page"])){
-            $paged = $_POST["page"];
+        if(isset($_GET["page"])){
+            $paged = $_GET["page"];
         }
         else{
             $paged = 1;
         }
         
-        if(isset($_POST["type"])){
-            $type = $_POST["type"];  
+        if(isset($_GET["type"])){
+            $type = $_GET["type"];  
         }
         else{
             $type = "post";
@@ -47,18 +47,18 @@ class PostController extends AbstractController{
         $postService->setQuery($query);
         $postService->setPaged($paged);
         
-        if(isset($_POST["perPage"])){
-            $postService->setPostsPerPage($_POST["perPage"]);
+        if(isset($_GET["perPage"])){
+            $postService->setPostsPerPage($_GET["perPage"]);
         }
         else{
             $postService->setPostsPerPage(self::POST_PER_PAGE);
         }
         
-        if(isset($_POST["orderby"])){
-            $postService->setOrderby($_POST["orderby"]);
+        if(isset($_GET["orderby"])){
+            $postService->setOrderby($_GET["orderby"]);
         }
-        if(isset($_POST["order"])){
-            $postService->setOrder($_POST["order"]);
+        if(isset($_GET["order"])){
+            $postService->setOrder($_GET["order"]);
         }
         
 
