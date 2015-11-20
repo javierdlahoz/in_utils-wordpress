@@ -254,10 +254,9 @@ class TextHelper {
      */
     public static function avoidHtmlTags($text){
         if(is_array($text)){
-            $text = $text[0][0];
-        }
-        if(is_array($text)){
-            $text = $text[0];
+            while(is_array($text)){
+                $text = $text[0];
+            }
         }
         return strip_tags($text);
     }
