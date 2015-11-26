@@ -314,13 +314,27 @@ abstract class WPPostEntity implements WPPostInterface
         }
         return $tags;
     }
-
+    
+    /**
+     * @return array 
+     */
+    public function getMeta(){
+        $meta = get_post_meta($this->getId());
+        unset($meta["_edit_lock"]);
+        unset($meta["_edit_last"]);
+        
+        $metaArray = array();
+        foreach($meta as $key => $value){
+            $metaArray[$key] = $value[0];
+        }
+        return $metaArray;
+    }
+    
     /**
      *
      * @return multitype:\INUtils\Entity\the \INUtils\Entity\Ambigous
      */
     public function toArray(){
-
         return array(
             "id" => $this->getId(),
             "title" => $this->getTitle(),
@@ -331,7 +345,8 @@ abstract class WPPostEntity implements WPPostInterface
             "type" => $this->getType(),
             "name" => $this->getName(),
             "author" => $this->getAuthor(),
-            "limitedContent" => TextHelper::cropText($this->getContent(), 300)
+            "limitedContent" => TextHelper::cropText($this->getContent(), 300),
+            "meta" => $this->getMeta()
         );
     }
     
