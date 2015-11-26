@@ -63,6 +63,12 @@ abstract class WPPostEntity implements WPPostInterface
      * @var array
      */
     private $comments;
+    
+    /**
+     * 
+     * @var string
+     */
+    private $excerpt;
 
     /**
      *
@@ -211,6 +217,7 @@ abstract class WPPostEntity implements WPPostInterface
         $this->date = $post->post_date;
         $this->name = $post->post_name;
         $this->author = $post->post_author;
+        $this->excerpt = $post->post_excerpt;
         $this->post = $post;
         
         if($this->type == "page"){
@@ -346,6 +353,7 @@ abstract class WPPostEntity implements WPPostInterface
             "name" => $this->getName(),
             "author" => $this->getAuthor(),
             "limitedContent" => TextHelper::cropText($this->getContent(), 300),
+            "excerpt" => $this->getExcerpt(), 
             "meta" => $this->getMeta()
         );
     }
@@ -393,5 +401,26 @@ abstract class WPPostEntity implements WPPostInterface
     public function getPost(){
         return $this->post;
     }
+
+    /**
+     *
+     * @return the string
+     */
+    public function getExcerpt()
+    {
+        return $this->excerpt;
+    }
+
+    /**
+     *
+     * @param
+     *            $excerpt
+     */
+    public function setExcerpt($excerpt)
+    {
+        $this->excerpt = $excerpt;
+        return $this;
+    }
+ 
 
 }
