@@ -41,11 +41,16 @@ class PostController extends AbstractController{
         else{
             $type = "post";
         }
-
+        
         $postService = PostService::getSingleton();
         $postService->setPostType($type);
         $postService->setQuery($query);
         $postService->setPaged($paged);
+        
+        if(isset($_GET["taxonomy"]) && isset($_GET["category"])){
+            $postService->setTaxonomyFilter($_GET["taxonomy"], $_GET["category"]);
+        }
+        
         
         if(isset($_GET["perPage"])){
             $postService->setPostsPerPage($_GET["perPage"]);
