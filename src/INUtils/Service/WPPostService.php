@@ -589,6 +589,7 @@ abstract class WPPostService extends AbstractSingleton
         $taxQuery = array(
             array(
                 "taxonomy" => $taxonomyName,
+                "field" => "slug",
                 "terms" => $terms
             )
         );
