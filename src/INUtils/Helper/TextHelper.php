@@ -43,6 +43,7 @@ class TextHelper {
     public static function formatSpaces($text) {
     	$text = str_replace(":", "\:", $text);
     	$text = str_replace(" ", "\ ", $text);
+    	$text = str_replace("&", "\&", $text);
     	return $text;
     }
 
