@@ -362,7 +362,8 @@ abstract class WPPostEntity implements WPPostInterface
             "limitedContent" => TextHelper::cropText($this->getContent(), 300),
             "excerpt" => $this->getExcerpt(), 
             "meta" => $this->getMeta(),
-            "timestamp" => $this->getTimestamp()
+            "timestamp" => $this->getTimestamp(),
+            "slug" => $this->getName()
         );
     }
     
