@@ -149,5 +149,17 @@ class PostController extends AbstractController{
             return array("post" => null);
         }
     }
+    
+    public function allAction(){
+        $postService = PostService::getSingleton();
+        $postService->setPostType("post");
+        $postService->setPostsPerPage(-1);
+        
+        $postEntities = $postService->getPosts();
+        return array(
+            "posts" => $this->formatPostResultsAsArray($postEntities),
+            "count" => $postService->getFoundPosts()
+        );
+    }
 
 }
