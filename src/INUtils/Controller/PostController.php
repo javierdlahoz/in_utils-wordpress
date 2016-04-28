@@ -154,7 +154,7 @@ class PostController extends AbstractController{
         $postService = PostService::getSingleton();
         $postService->setPostsPerPage(-1);
         $postService->setPostType("post");
-        $postService->setPostStatus("publish");
+        $postService->setPostStatus(array('publish', 'pending', 'draft', 'auto-draft', 'future', 'private', 'inherit', 'trash'));
     
         $postEntities = $postService->getPosts();
         return array(
