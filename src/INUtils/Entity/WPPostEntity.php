@@ -430,11 +430,19 @@ abstract class WPPostEntity implements WPPostInterface
         return $this;
     }
 
+    /**
+     * 
+     * @return string
+     */
     public function getTimestamp()
     {
         return $this->timestamp;
     }
 
+    /**
+     * 
+     * @param string $timestamp
+     */
     public function setTimestamp($timestamp)
     {
         $this->timestamp = $timestamp;
