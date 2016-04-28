@@ -152,13 +152,14 @@ class PostController extends AbstractController{
     
     public function allAction(){
         $postService = PostService::getSingleton();
-        $postService->setPostType("post");
         $postService->setPostsPerPage(-1);
-        
+        $postService->setPostType("post");
+        $postService->setPostStatus("publish");
+    
         $postEntities = $postService->getPosts();
         return array(
-            "posts" => $this->formatPostResultsAsArray($postEntities),
-            "count" => $postService->getFoundPosts()
+            "count" => $postService->getFoundPosts(),
+            "posts" => $this->formatPostResultsAsArray($postEntities)
         );
     }
 
