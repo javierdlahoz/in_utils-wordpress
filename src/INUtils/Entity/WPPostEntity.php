@@ -69,6 +69,12 @@ abstract class WPPostEntity implements WPPostInterface
      * @var string
      */
     private $excerpt;
+    
+    /**
+     * 
+     * @var string
+     */
+    private $timestamp;
 
     /**
      *
@@ -219,6 +225,7 @@ abstract class WPPostEntity implements WPPostInterface
         $this->author = $post->post_author;
         $this->excerpt = $post->post_excerpt;
         $this->post = $post;
+        $this->timestamp = get_the_time('U', $post);
         
         if($this->type == "page"){
             $this->permalink = $this->post->guid;
@@ -354,7 +361,8 @@ abstract class WPPostEntity implements WPPostInterface
             "author" => $this->getAuthor(),
             "limitedContent" => TextHelper::cropText($this->getContent(), 300),
             "excerpt" => $this->getExcerpt(), 
-            "meta" => $this->getMeta()
+            "meta" => $this->getMeta(),
+            "timestamp" => $this->getTimestamp()
         );
     }
     
@@ -421,6 +429,16 @@ abstract class WPPostEntity implements WPPostInterface
         $this->excerpt = $excerpt;
         return $this;
     }
- 
+
+    public function getTimestamp()
+    {
+        return $this->timestamp;
+    }
+
+    public function setTimestamp($timestamp)
+    {
+        $this->timestamp = $timestamp;
+        return $this;
+    }
 
 }
