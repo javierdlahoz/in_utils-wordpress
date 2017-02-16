@@ -226,7 +226,6 @@ abstract class WPPostEntity implements WPPostInterface
 
     function __construct($postId){
         $post = get_post($postId);
-        $taxonomies = get_taxonomies('','names');
         
         $this->id = $post->ID;
         $this->content = $post->post_content;
@@ -240,7 +239,6 @@ abstract class WPPostEntity implements WPPostInterface
         $this->post = $post;
         $this->timestamp = get_the_time('U', $post);
         $this->categories = wp_get_post_categories($post->ID);
-        $this->taxonomies = wp_get_post_terms($post->ID, $taxonomies, array("fields" => "names"));
         
         if($this->type == "page"){
             $this->permalink = $this->post->guid;
@@ -358,6 +356,17 @@ abstract class WPPostEntity implements WPPostInterface
         }
         return $metaArray;
     }
+
+    /**
+     * @return array 
+     */
+    public function getCategories(){
+        $cats = array();
+        foreach ($this->categories as $categorieId) {
+            $cats[] = get_cat_name($categorieId);
+        }
+        return $cats;
+    }
     
     /**
      *
@@ -378,8 +387,7 @@ abstract class WPPostEntity implements WPPostInterface
             "excerpt" => $this->getExcerpt(), 
             "timestamp" => $this->getTimestamp(),
             "slug" => $this->getName(),
-            "categories" => $this->categories,
-            "taxonomies" => $this->taxonomies,
+            "categories" => $this->getCategories(),
             "meta" => $this->getMeta()
         );
     }
