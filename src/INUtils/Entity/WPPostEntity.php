@@ -237,7 +237,7 @@ abstract class WPPostEntity implements WPPostInterface
         $this->author = $post->post_author;
         $this->excerpt = $post->post_excerpt;
         $this->post = $post;
-        $this->timestamp = get_the_time('U', $post);
+        $this->timestamp = get_post_modified_time('U', false, $post->ID);
         $this->categories = wp_get_post_categories($post->ID);
         
         if($this->type == "page"){
