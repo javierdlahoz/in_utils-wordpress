@@ -379,6 +379,7 @@ abstract class WPPostEntity implements WPPostInterface
             "content" => $this->getContent(),
             "permalink" => $this->getPermalink(),
             "image" => $this->getImage(),
+            "postDate" => $this->date,
             "date" => $this->getFormattedDate(),
             "type" => $this->getType(),
             "name" => $this->getName(),
