@@ -241,7 +241,6 @@ abstract class WPPostEntity implements WPPostInterface
         $this->timestamp = get_the_time('U', $post);
         $this->categories = wp_get_post_categories($post->ID);
         $this->taxonomies = wp_get_post_terms($post->ID, $taxonomies, array("fields" => "names"));
-        $this->timestamp = gt_the_time('U', $post);
         
         if($this->type == "page"){
             $this->permalink = $this->post->guid;
