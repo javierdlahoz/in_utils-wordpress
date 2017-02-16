@@ -50,8 +50,7 @@ class PostController extends AbstractController{
         if(isset($_GET["taxonomy"]) && isset($_GET["category"])){
             $postService->setTaxonomyFilter($_GET["taxonomy"], $_GET["category"]);
         }
-        
-        
+
         if(isset($_GET["perPage"])){
             $postService->setPostsPerPage($_GET["perPage"]);
         }

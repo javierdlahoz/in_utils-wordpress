@@ -77,6 +77,18 @@ abstract class WPPostEntity implements WPPostInterface
     private $timestamp;
 
     /**
+     * 
+     * @var array
+     */
+    private $categories;
+
+    /**
+     * 
+     * @var array
+     */
+    private $taxonomies;
+
+    /**
      *
      * @return array
      */
@@ -214,7 +226,8 @@ abstract class WPPostEntity implements WPPostInterface
 
     function __construct($postId){
         $post = get_post($postId);
-
+        $taxonomies = get_taxonomies('','names');
+        
         $this->id = $post->ID;
         $this->content = $post->post_content;
         $this->image = wp_get_attachment_url(get_post_thumbnail_id($this->id));
@@ -226,6 +239,9 @@ abstract class WPPostEntity implements WPPostInterface
         $this->excerpt = $post->post_excerpt;
         $this->post = $post;
         $this->timestamp = get_the_time('U', $post);
+        $this->categories = wp_get_post_categories($post->ID);
+        $this->taxonomies = wp_get_post_terms($post->ID, $taxonomies, array("fields" => "names"));
+        $this->timestamp = gt_the_time('U', $post);
         
         if($this->type == "page"){
             $this->permalink = $this->post->guid;
@@ -361,9 +377,11 @@ abstract class WPPostEntity implements WPPostInterface
             "author" => $this->getAuthor(),
             "limitedContent" => TextHelper::cropText($this->getContent(), 300),
             "excerpt" => $this->getExcerpt(), 
-            "meta" => $this->getMeta(),
             "timestamp" => $this->getTimestamp(),
-            "slug" => $this->getName()
+            "slug" => $this->getName(),
+            "categories" => $this->categories,
+            "taxonomies" => $this->taxonomies,
+            "meta" => $this->getMeta()
         );
     }
     

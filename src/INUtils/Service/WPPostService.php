@@ -153,6 +153,12 @@ abstract class WPPostService extends AbstractSingleton
     private $name;
 
     /**
+     *
+     * @var array
+     */
+    private $date_query;
+
+    /**
      * @return the $name
      */
     public function getName()
@@ -369,6 +375,14 @@ abstract class WPPostService extends AbstractSingleton
     }
 
     /**
+     * @return the $date_query
+     */
+    public function getDateQuery()
+    {
+        return $this->date_query;
+    }
+
+    /**
      * @param number $post_per_page
      */
     public function setPostsPerPage($post_per_page)
@@ -488,6 +502,14 @@ abstract class WPPostService extends AbstractSingleton
         $this->suppress_filters = $suppress_filters;
     }
 
+    /**
+     * @param array $date_query
+     */
+    public function setDateQuery($date_query)
+    {
+        $this->date_query = $date_query;
+    }
+
     protected abstract function init();
 
     function __construct(){
@@ -567,6 +589,9 @@ abstract class WPPostService extends AbstractSingleton
         }
         if($this->name != null){
             $args["name"] = $this->name;
+        }
+        if(!is_null($this->date_query)){
+            $args["date_query"] = $this->date_query;
         }
 
         return $args;
